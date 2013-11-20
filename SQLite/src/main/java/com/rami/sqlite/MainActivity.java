@@ -4,12 +4,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -19,7 +23,29 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DatabaseHandler db = new DatabaseHandler(this);
+/**
+ * CRUD Operations
+ * */
+        // Inserting Contacts
+        Log.d("Insert: ", "Inserting ..");
+        db.addContact(new Contact("Ravi", "9100000000"));
+        db.addContact(new Contact("Srinivas", "9199999999"));
+        db.addContact(new Contact("Tommy", "9522222222"));
+        db.addContact(new Contact("Karthik", "9533333333"));
 
+        // Reading all contacts
+        Log.d("Reading: ", "Reading all contacts..");
+        List<Contact> contacts = db.getAllContacts();
+//Toast.makeText( context,"dd "+positionFinal ,10 ).show();//
+
+        for (Contact cn : contacts)
+        {
+            String log = "Id: " + cn.getID() + " ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
+            // Writing Contacts to log
+            Log.d("Name: ", log);
+            Toast.makeText(this," is = "+log,10).show();
+        }
         if (savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
